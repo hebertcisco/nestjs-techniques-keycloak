@@ -7,7 +7,12 @@ export class CreateUserDto {
     @ApiProperty({ required: true, default: chance.name() })
     @IsString()
     @IsNotEmpty()
-    name: string;
+    firstName: string;
+
+    @ApiProperty({ required: true, default: chance.name() })
+    @IsString()
+    @IsNotEmpty()
+    lastName: string;
 
     @ApiProperty({ required: true, default: chance.email() })
     @IsEmail()

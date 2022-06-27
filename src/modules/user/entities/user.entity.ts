@@ -16,7 +16,12 @@ export class User {
     @Column()
     @IsString()
     @IsNotEmpty()
-    name: string;
+    firstName: string;
+
+    @Column()
+    @IsString()
+    @IsNotEmpty()
+    lastName: string;
 
     @Column({ name: 'email', type: 'varchar', nullable: false, unique: true })
     @IsString()

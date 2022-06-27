@@ -1,6 +1,5 @@
-const fs = require('fs');
-const { join } = require('path');
-const { execSync } = require('child_process');
+const { join } = require('node:path');
+const { execSync } = require('node:child_process');
 const dotenv = require('dotenv');
 
 dotenv.config();

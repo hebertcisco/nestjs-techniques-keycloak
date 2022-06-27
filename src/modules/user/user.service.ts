@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { KeycloakService } from 'nest-keycloak-middleware';
 
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -23,6 +24,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+        private readonly keycloakService: KeycloakService,
     ) {}
     public async findUserList(dto: UserListDataDto): Promise<UserListType[]> {
         return await this.userRepository.query(
@@ -44,7 +46,17 @@ export class UserService {
                 ...createUserDto,
                 password: passwordHash,
             });
-            return this.userRepository.save(user);
+            const ctx = this.keycloakService.createKeycloakCtx();
+
+            return ctx.users
+                .create({
+                    ...createUserDto,
+                    username: user.id,
+                    password: passwordHash,
+                    enabled: true,
+                })
+                .then(() => this.userRepository.save(user))
+                .catch((error) => error);
         } catch (error) {
             throw error;
         }

@@ -1,19 +1,10 @@
-import {
-    Controller,
-    Get,
-    HttpCode,
-    Res,
-    UseInterceptors,
-} from '@nestjs/common';
-
-import { CacheInterceptor } from '@nestjs/common';
+import { Controller, Get, HttpCode, Res } from '@nestjs/common';
 
 import type { Response } from 'express';
 
 import { AppService } from './app.service';
 
 @Controller()
-@UseInterceptors(CacheInterceptor)
 export class AppController {
     constructor(private readonly appService: AppService) {}
 
